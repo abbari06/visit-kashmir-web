@@ -1,0 +1,3108 @@
+<div style="height: 370px">
+  <div class="background h-100">
+    <div class="main">
+      <div class="totalDays">{{ totalDays }} days in kashmir</div>
+      <div>
+        {{ formData.query.arrivalDate | date }} -
+        {{ formData.query.departureDate | date }}
+      </div>
+    </div>
+  </div>
+</div>
+<mat-toolbar class="subnav" style="height: 38px">
+  <div>
+    <button mat-button>Day to Day</button>
+  </div>
+</mat-toolbar>
+<app-loader *ngIf="loader"></app-loader>
+<div class="container-fluid mt-3 pb-3">
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-10">
+      <!-- <div class="timeline"> -->
+      <ng-container
+        *ngFor="let property of $any(recommendation(data)) | keyvalue"
+      >
+        <ng-container *ngIf="property.key == 1">
+          <div class="day_timeline">
+            <h5>Day-{{ property.key }}</h5>
+            <mat-divider
+              vertical
+              style="height: 20px; margin-top: 5px"
+            ></mat-divider>
+            <div>
+              <span class="material-symbols-outlined"> flight_takeoff </span>
+            </div>
+            <div>
+              <mat-divider
+                vertical
+                style="height: 20px; margin-top: 5px"
+              ></mat-divider>
+            </div>
+            <mat-card class="mt-1 mat-elevation-z8" style="width: 85%">
+              <mat-card-content>
+                <div class="container">
+                  <div>
+                    <h4>Airport to hotel</h4>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <h6>{{arrivalTime |time24to12Transform}}</h6>
+                    </div>
+                    <div class="col-sm-4">
+                      <h6>Arrival time.</h6>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <h6>{{hotelCheckInTime  |time24to12Transform }}</h6>
+                    </div>
+                    <div class="col-sm-4">
+                      <h6>Hotel check-in time.</h6>
+                    </div>
+                  </div>
+                  <h6>You can have rest for one hour to settle up the room.</h6>
+                  <mat-divider></mat-divider>
+
+                  <ng-container *ngFor="let day of $any(property['value'])">
+                    <ng-container *ngFor="let items of $any(day) | keyvalue">
+                      <div class="day_timeline">
+                        <h5>Explore {{ items.key }}</h5>
+                        <mat-divider
+                          vertical
+                          style="height: 20px; margin-top: 5px"
+                        ></mat-divider>
+                      </div>
+                      <div class="row">
+                        <div class="d-flex">
+                          <ul
+                            ngbNav
+                            #nav="ngbNav"
+                            class="nav-pills"
+                            activeId="attraction"
+                            orientation="vertical"
+                          >
+                            <li ngbNavItem="attraction">
+                              <a ngbNavLink>Attraction</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="keys.key == 'attractions'"
+                                  >
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let attraction of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>
+                                                    <h6>Visiting Hours</h6>
+                                                  </div>
+                                                  <div>
+                                                    <h6>
+                                                      {{
+                                                        attraction.startSlot
+                                                          | time24to12Transform
+                                                      }}-{{
+                                                        attraction.endSlot
+                                                          | time24to12Transform
+                                                      }}
+                                                    </h6>
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="
+                                                          attraction.images[0]
+                                                        "
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{
+                                                            attraction.name
+                                                              | uppercase
+                                                          }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                            margin: 2px;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of attraction.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            attraction.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-2 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            attraction.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            attraction.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Best time &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                          "
+                                                          *ngFor="
+                                                            let bestTime of attraction.bestTimetoVisit
+                                                          "
+                                                          class="badge badge-pill bg-success"
+                                                          >{{ bestTime }}</span
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-7 activities"
+                                                    >
+                                                      <div>
+                                                        Activities &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                            margin: 2px;
+                                                          "
+                                                          *ngFor="
+                                                            let things of attraction.thingsToDo
+                                                          "
+                                                          class="badge badge-pill bg-success"
+                                                          >{{ things }}</span
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem="foodplaces">
+                              <a ngbNavLink>Foodplaces</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="keys.key == 'foodplaces'"
+                                  >
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let foodplace of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>
+                                                    <h6>Visiting Hours</h6>
+                                                  </div>
+                                                  <div>
+                                                    <h6>
+                                                      {{
+                                                        foodplace.startSlot
+                                                          | time24to12Transform
+                                                      }}-{{
+                                                        foodplace.endSlot
+                                                          | time24to12Transform
+                                                      }}
+                                                    </h6>
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="
+                                                          foodplace.images[0]
+                                                        "
+                                                        alt=""
+                                                        style="
+                                                          max-height: 150px;
+                                                        "
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{
+                                                            foodplace.name
+                                                              | uppercase
+                                                          }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of foodplace.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            foodplace.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-3 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Pets allowed &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>Pure veg &nbsp;</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.pureVeg ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.pureVeg ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>Type &nbsp;</div>
+                                                      <div>
+                                                        {{ foodplace.type }}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem="events">
+                              <a ngbNavLink>Events</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container *ngIf="keys.key == 'events'">
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let event of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>Visit between-></div>
+                                                  <div>
+                                                    {{
+                                                      event.startSlot
+                                                        | time24to12Transform
+                                                    }}-{{
+                                                      event.endSlot
+                                                        | time24to12Transform
+                                                    }}
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="event.images[0]"
+                                                        alt=""
+                                                        style="
+                                                          max-height: 150px;
+                                                        "
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{ event.name }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of event.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            event.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-3 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            check_small
+                                                          </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            close
+                                                          </span>
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Pets allowed &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            check_small
+                                                          </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            close
+                                                          </span>
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Senior cititzen
+                                                        compactibility &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.seniorCetizenCompatibility ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            check_small
+                                                          </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.seniorCetizenCompatibility ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            close
+                                                          </span>
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem="recreationalActivities">
+                              <a ngbNavLink>Activities</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="keys.key == 'recreationalActivities'"
+                                  >
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let activity of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>
+                                                    <h6>Visiting Hours</h6>
+                                                  </div>
+                                                  <div>
+                                                    <h6>
+                                                      {{
+                                                        activity.startSlot
+                                                          | time24to12Transform
+                                                      }}-{{
+                                                        activity.endSlot
+                                                          | time24to12Transform
+                                                      }}
+                                                    </h6>
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="
+                                                          activity.images[0]
+                                                        "
+                                                        alt=""
+                                                        style="
+                                                          max-height: 150px;
+                                                        "
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{
+                                                            activity.name
+                                                              | uppercase
+                                                          }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                            margin: 4px;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of activity.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            activity.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-2 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Pets allowed &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>Senior citizen</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+
+                                                    <div
+                                                      class="col-sm-4 activities"
+                                                    >
+                                                      <div>Type &nbsp;</div>
+                                                      <div>
+                                                        {{ activity.type }}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                          </ul>
+
+                          <div [ngbNavOutlet]="nav" class="ms-4"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="property.key != 1 && property.key != totalDays">
+          <div class="day_timeline">
+            <mat-divider
+              vertical
+              style="height: 20px; margin-top: 5px"
+            ></mat-divider>
+            <h4>Day-{{ property.key }}</h4>
+            <mat-divider
+              vertical
+              style="height: 20px; margin-top: 5px"
+            ></mat-divider>
+            <div>
+              <span class="material-symbols-outlined"> directions_car </span>
+            </div>
+            <div>
+              <mat-divider
+                vertical
+                style="height: 20px; margin-top: 5px"
+              ></mat-divider>
+            </div>
+            <mat-card class="mt-1 mat-elevation-z8" style="width: 85%">
+              <mat-card-content>
+                <div class="container">
+                  <ng-container *ngFor="let day of $any(property['value'])">
+                    <ng-container *ngFor="let items of $any(day) | keyvalue">
+                      <div class="day_timeline">
+                        <h5>Explore {{ items.key }}</h5>
+                        <mat-divider
+                          vertical
+                          style="height: 20px; margin-top: 5px"
+                        ></mat-divider>
+                      </div>
+                      <div class="row">
+                        <div class="d-flex">
+                          <ul
+                            ngbNav
+                            #nav="ngbNav"
+                            class="nav-pills"
+                            activeId="attraction"
+                            orientation="vertical"
+                          >
+                            <li ngbNavItem="attraction">
+                              <a ngbNavLink>Attraction</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="keys.key == 'attractions'"
+                                  >
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let attraction of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>
+                                                    <h6>Visiting Hours</h6>
+                                                  </div>
+                                                  <div>
+                                                    <h6>
+                                                      {{
+                                                        attraction.startSlot
+                                                          | time24to12Transform
+                                                      }}-{{
+                                                        attraction.endSlot
+                                                          | time24to12Transform
+                                                      }}
+                                                    </h6>
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="
+                                                          attraction.images[0]
+                                                        "
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{
+                                                            attraction.name
+                                                              | uppercase
+                                                          }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                            margin: 2px;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of attraction.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            attraction.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-2 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            attraction.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            attraction.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Best time &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                          "
+                                                          *ngFor="
+                                                            let bestTime of attraction.bestTimetoVisit
+                                                          "
+                                                          class="badge badge-pill bg-success"
+                                                          >{{ bestTime }}</span
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-7 activities"
+                                                    >
+                                                      <div>
+                                                        Activities &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                            margin: 2px;
+                                                          "
+                                                          *ngFor="
+                                                            let things of attraction.thingsToDo
+                                                          "
+                                                          class="badge badge-pill bg-success"
+                                                          >{{ things }}</span
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem="foodplaces">
+                              <a ngbNavLink>Foodplaces</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="keys.key == 'foodplaces'"
+                                  >
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let foodplace of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>
+                                                    <h6>Visiting Hours</h6>
+                                                  </div>
+                                                  <div>
+                                                    <h6>
+                                                      {{
+                                                        foodplace.startSlot
+                                                          | time24to12Transform
+                                                      }}-{{
+                                                        foodplace.endSlot
+                                                          | time24to12Transform
+                                                      }}
+                                                    </h6>
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="
+                                                          foodplace.images[0]
+                                                        "
+                                                        alt=""
+                                                        style="
+                                                          max-height: 150px;
+                                                        "
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{
+                                                            foodplace.name
+                                                              | uppercase
+                                                          }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of foodplace.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            foodplace.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-3 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Pets allowed &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>Pure veg &nbsp;</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.pureVeg ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.pureVeg ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>Type &nbsp;</div>
+                                                      <div>
+                                                        {{ foodplace.type }}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem="events">
+                              <a ngbNavLink>Events</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container *ngIf="keys.key == 'events'">
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let event of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>Visit between-></div>
+                                                  <div>
+                                                    {{
+                                                      event.startSlot
+                                                        | time24to12Transform
+                                                    }}-{{
+                                                      event.endSlot
+                                                        | time24to12Transform
+                                                    }}
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="event.images[0]"
+                                                        alt=""
+                                                        style="
+                                                          max-height: 150px;
+                                                        "
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{ event.name }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of event.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            event.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-3 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            check_small
+                                                          </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            close
+                                                          </span>
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Pets allowed &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            check_small
+                                                          </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            close
+                                                          </span>
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Senior cititzen
+                                                        compactibility &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.seniorCetizenCompatibility ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            check_small
+                                                          </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.seniorCetizenCompatibility ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            close
+                                                          </span>
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem="recreationalActivities">
+                              <a ngbNavLink>Activities</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="keys.key == 'recreationalActivities'"
+                                  >
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let activity of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>
+                                                    <h6>Visiting Hours</h6>
+                                                  </div>
+                                                  <div>
+                                                    <h6>
+                                                      {{
+                                                        activity.startSlot
+                                                          | time24to12Transform
+                                                      }}-{{
+                                                        activity.endSlot
+                                                          | time24to12Transform
+                                                      }}
+                                                    </h6>
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="
+                                                          activity.images[0]
+                                                        "
+                                                        alt=""
+                                                        style="
+                                                          max-height: 150px;
+                                                        "
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{
+                                                            activity.name
+                                                              | uppercase
+                                                          }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                            margin: 4px;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of activity.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            activity.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-2 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Pets allowed &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>Senior citizen</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+
+                                                    <div
+                                                      class="col-sm-4 activities"
+                                                    >
+                                                      <div>Type &nbsp;</div>
+                                                      <div>
+                                                        {{ activity.type }}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                          </ul>
+
+                          <div [ngbNavOutlet]="nav" class="ms-4"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="property.key == totalDays">
+          <div class="day_timeline">
+            <mat-divider
+              vertical
+              style="height: 20px; margin-top: 5px"
+            ></mat-divider>
+            <h4>Day-{{ property.key }}</h4>
+            <mat-divider
+              vertical
+              style="height: 20px; margin-top: 5px"
+            ></mat-divider>
+            <div>
+              <span class="material-symbols-outlined"> directions_car </span>
+            </div>
+            <div>
+              <mat-divider
+                vertical
+                style="height: 20px; margin-top: 5px"
+              ></mat-divider>
+            </div>
+            <mat-card class="mt-1 mat-elevation-z8" style="width: 85%">
+              <mat-card-content>
+                <div class="container">
+                  <ng-container *ngFor="let day of $any(property['value'])">
+                    <ng-container *ngFor="let items of $any(day) | keyvalue">
+                      <div class="day_timeline">
+                        <h5>Explore {{ items.key }}</h5>
+                        <mat-divider
+                          vertical
+                          style="height: 20px; margin-top: 5px"
+                        ></mat-divider>
+                      </div>
+                      <div class="row">
+                        <div class="d-flex">
+                          <ul
+                            ngbNav
+                            #nav="ngbNav"
+                            class="nav-pills"
+                            activeId="attraction"
+                            orientation="vertical"
+                          >
+                            <li ngbNavItem="attraction">
+                              <a ngbNavLink>Attraction</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="keys.key == 'attractions'"
+                                  >
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let attraction of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>
+                                                    <h6>Visiting Hours</h6>
+                                                  </div>
+                                                  <div>
+                                                    <h6>
+                                                      {{
+                                                        attraction.startSlot
+                                                          | time24to12Transform
+                                                      }}-{{
+                                                        attraction.endSlot
+                                                          | time24to12Transform
+                                                      }}
+                                                    </h6>
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="
+                                                          attraction.images[0]
+                                                        "
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{
+                                                            attraction.name
+                                                              | uppercase
+                                                          }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                            margin: 2px;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of attraction.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            attraction.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-2 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            attraction.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            attraction.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Best time &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                          "
+                                                          *ngFor="
+                                                            let bestTime of attraction.bestTimetoVisit
+                                                          "
+                                                          class="badge badge-pill bg-success"
+                                                          >{{ bestTime }}</span
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-7 activities"
+                                                    >
+                                                      <div>
+                                                        Activities &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                            margin: 2px;
+                                                          "
+                                                          *ngFor="
+                                                            let things of attraction.thingsToDo
+                                                          "
+                                                          class="badge badge-pill bg-success"
+                                                          >{{ things }}</span
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem="foodplaces">
+                              <a ngbNavLink>Foodplaces</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="keys.key == 'foodplaces'"
+                                  >
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let foodplace of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>
+                                                    <h6>Visiting Hours</h6>
+                                                  </div>
+                                                  <div>
+                                                    <h6>
+                                                      {{
+                                                        foodplace.startSlot
+                                                          | time24to12Transform
+                                                      }}-{{
+                                                        foodplace.endSlot
+                                                          | time24to12Transform
+                                                      }}
+                                                    </h6>
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="
+                                                          foodplace.images[0]
+                                                        "
+                                                        alt=""
+                                                        style="
+                                                          max-height: 150px;
+                                                        "
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{
+                                                            foodplace.name
+                                                              | uppercase
+                                                          }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of foodplace.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            foodplace.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-3 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Pets allowed &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>Pure veg &nbsp;</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.pureVeg ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            foodplace.pureVeg ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>Type &nbsp;</div>
+                                                      <div>
+                                                        {{ foodplace.type }}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem="events">
+                              <a ngbNavLink>Events</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container *ngIf="keys.key == 'events'">
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let event of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>Visit between-></div>
+                                                  <div>
+                                                    {{
+                                                      event.startSlot
+                                                        | time24to12Transform
+                                                    }}-{{
+                                                      event.endSlot
+                                                        | time24to12Transform
+                                                    }}
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="event.images[0]"
+                                                        alt=""
+                                                        style="
+                                                          max-height: 150px;
+                                                        "
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{ event.name }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of event.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            event.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-3 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            check_small
+                                                          </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            close
+                                                          </span>
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Pets allowed &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            check_small
+                                                          </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            close
+                                                          </span>
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Senior cititzen
+                                                        compactibility &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.seniorCetizenCompatibility ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            check_small
+                                                          </span>
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            event.seniorCetizenCompatibility ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <span
+                                                            class="material-symbols-outlined"
+                                                          >
+                                                            close
+                                                          </span>
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                            <li ngbNavItem="recreationalActivities">
+                              <a ngbNavLink>Activities</a>
+                              <ng-template ngbNavContent class="border">
+                                <ng-container
+                                  *ngFor="
+                                    let keys of $any(items['value']) | keyvalue
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="keys.key == 'recreationalActivities'"
+                                  >
+                                    <ngb-carousel data-bs-interval="false">
+                                      <ng-container
+                                        *ngFor="
+                                          let activity of $any(keys['value']);
+                                          let pointIndex = index
+                                        "
+                                      >
+                                        <ng-template ngbSlide>
+                                          <div class="box">
+                                            <div class="card mat-elevation-z8">
+                                              <div class="card-body">
+                                                <div class="card-header">
+                                                  <div>
+                                                    <h6>Visiting Hours</h6>
+                                                  </div>
+                                                  <div>
+                                                    <h6>
+                                                      {{
+                                                        activity.startSlot
+                                                          | time24to12Transform
+                                                      }}-{{
+                                                        activity.endSlot
+                                                          | time24to12Transform
+                                                      }}
+                                                    </h6>
+                                                  </div>
+                                                </div>
+                                                <div class="container">
+                                                  <div class="row card_body">
+                                                    <div
+                                                      class="col-sm-3 border p-0"
+                                                    >
+                                                      <img
+                                                        [src]="
+                                                          activity.images[0]
+                                                        "
+                                                        alt=""
+                                                        style="
+                                                          max-height: 150px;
+                                                        "
+                                                      />
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-9 side_content"
+                                                    >
+                                                      <div class="name">
+                                                        <h6 class="m-0">
+                                                          {{
+                                                            activity.name
+                                                              | uppercase
+                                                          }}
+                                                        </h6>
+                                                      </div>
+                                                      <div class="cat">
+                                                        <span
+                                                          style="
+                                                            font-weight: 400;
+                                                            margin: 4px;
+                                                          "
+                                                          *ngFor="
+                                                            let cat of activity.category
+                                                          "
+                                                          class="badge badge-pill bg-primary"
+                                                          >{{ cat }}</span
+                                                        >
+                                                      </div>
+                                                      <div class="des">
+                                                        <p>
+                                                          {{
+                                                            activity.description
+                                                          }}
+                                                        </p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-2 footer_content"
+                                                    >
+                                                      <div>Restroom</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.restroomAvailability ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.restroomAvailability ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>
+                                                        Pets allowed &nbsp;
+                                                      </div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-3 activities"
+                                                    >
+                                                      <div>Senior citizen</div>
+                                                      <div>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            true
+                                                          "
+                                                        >
+                                                          <mat-icon
+                                                            color="primary"
+                                                            >check</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                        <ng-container
+                                                          *ngIf="
+                                                            activity.petsAllowed ==
+                                                            false
+                                                          "
+                                                        >
+                                                          <mat-icon color="warn"
+                                                            >close</mat-icon
+                                                          >
+                                                        </ng-container>
+                                                      </div>
+                                                    </div>
+
+                                                    <div
+                                                      class="col-sm-4 activities"
+                                                    >
+                                                      <div>Type &nbsp;</div>
+                                                      <div>
+                                                        {{ activity.type }}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                                <div class="container">
+                                                  <div class="row">
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          map
+                                                        </span>
+                                                      </div>
+
+                                                      <div>
+                                                        <a href=""> View Map</a>
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          reviews
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Testimonials</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                    <div
+                                                      class="col-sm-4 footer_links"
+                                                    >
+                                                      <div>
+                                                        <span
+                                                          class="material-symbols-outlined"
+                                                        >
+                                                          info
+                                                        </span>
+                                                      </div>
+                                                      <div>
+                                                        <a href=""
+                                                          >Extra info</a
+                                                        >
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+
+                                          <div></div>
+                                        </ng-template>
+                                      </ng-container>
+                                    </ngb-carousel>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-template>
+                            </li>
+                          </ul>
+
+                          <div [ngbNavOutlet]="nav" class="ms-4"></div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                  <mat-divider></mat-divider>
+                  <div>
+                    <h4>Hotel to Airport</h4>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <h6>{{departureTime| time24to12Transform}}</h6>
+                    </div>
+                    <div class="col-sm-4">
+                      <h6>Departure time.</h6>
+                    </div>
+                  </div>
+                  <h6>Fly home with sweet memories of kashmr.</h6>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</div>

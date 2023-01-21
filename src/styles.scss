@@ -1,1 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+/* Importing Bootstrap SCSS file. */
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+:root ,
+#root,
+#docs-root {
+    --primary-color: #89a4c5;
+    --secondary-color: #000;
+    --action-color:#20B08E;
+  }
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Kanit', sans-serif;}
+.mat-divider-vertical{
+  height: 100%;
+  width: 0px !important;
+  position: inherit !important;
+}
+
+
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+/* Importing Bootstrap SCSS file. */
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+    filter: invert(100%);
+}
+
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+    filter: invert(100%);
+    width: 8%!important;
+}
+
+.carousel-indicators  {
+  filter: invert(100%);
+  display: none;
+}
+

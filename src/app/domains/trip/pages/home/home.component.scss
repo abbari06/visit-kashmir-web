@@ -1,0 +1,124 @@
+.background{
+    background-color: aqua;
+     width: 100%;
+     min-height: 600px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.heading{
+  display: flex;
+  align-items: center;
+}
+.mainFormDiv{
+  display: flex;
+  justify-content: end;
+}
+.carousel{
+  width: 100%;
+  // height: 60%;
+
+}
+.example-spacer {
+    flex: 1 1 auto;
+  }
+  // .mat-form-field{
+  //   width: 100%;
+  // }
+
+   .mat-menu-panel {
+    max-width: none !important;
+    width: 200px;
+  }
+  .mat-expansion-panel-header {
+    padding: 0px 0px!important;
+  }
+  .mat-expansion-panel-header {
+    height: 15px!important;
+}
+.mat-expansion-indicator::after {
+display: none!important;
+}
+
+
+.mat-horizontal-stepper-header {
+  height: 38px!important;
+}
+
+.mat-horizontal-content-container {
+  padding: 0px!important 
+}
+
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+  background-color: black;
+  color: #fff;
+}
+
+/* Styles for tab labels */
+
+/* Styles for the active tab label */
+.mat-tab-label.mat-tab-label-active {
+  color: black;
+
+}
+.mat-tab-label {
+  color: black;
+
+  height: 35px!important;
+  padding: 0 0px!important;
+  cursor: pointer;
+  box-sizing: border-box;
+  opacity: 1!important;
+  min-width: 160px;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  position: relative;
+}
+
+.mat-ink-bar {
+  background-color:black !important;}
+
+  // .planner{
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   align-items: center;
+  //   // text-align: center;
+  //   align-content: center;
+  //   justify-items: center;
+  // }
+  .itineryForm{
+width: 650px!important;
+mat-card-header{
+  display: flex;
+    justify-content: center;
+}
+  }
+
+  .guests{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+
+  .interests{
+    margin:3px 0px 10px 0px;
+  }
+
+  .divider{
+    margin-top: 100px;
+  }
+
+  .text_heading{
+    mat-card-header{
+      display: flex;
+        justify-content: center;
+         .mat-card-title {
+          font-size: 28px;
+      }    }
+  }
+  

@@ -1,0 +1,168 @@
+.center {
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+  }
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  .background{
+    background-image: url("../../../../../assets/pexels-prateek-katyal-2862204.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    text-align: center;
+    opacity: 0.8;
+    
+  }
+
+  .main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+
+  }
+
+  .carousel-control-prev,
+.carousel-control-next {
+
+  width: 4%!important;
+}
+  .images {
+    width:  135px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.subnav{
+  
+    display: flex;
+    justify-content: center;
+
+}
+
+.timeline{
+  display: flex;
+  justify-content: center;
+
+}
+.box{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-top:20px;
+  padding-bottom: 20px;
+}
+.card{
+  width:650px;
+  height:245px;
+}
+.card-body{
+  padding:0px;
+}
+.card-header{
+  padding:2px;
+  display:flex;
+  justify-content: space-between;
+  background: none;
+}
+.card-image{
+  height:80%;
+}
+img, video {
+  max-width: 100%;
+  /* height: auto; */
+  height: 150px;
+}
+
+.card_body{
+  max-height: 150px;
+  min-height: 150px;
+  img{
+    height: 100%;
+  }
+  .side_content{
+    min-height: 100%;
+
+    .des{
+      height: 105px;
+      overflow: hidden;
+      text-overflow: ellipsis;   
+      white-space: normal;
+      margin-top: 5px;
+  // min-height: 100%;
+    }
+  }
+}
+
+.cat{
+  .pils{
+    margin:2px;
+    font-weight: 400;
+  }
+}
+
+.footer_content{
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  .mat-icon{
+    font-size: 16px;
+  }
+}
+.activities{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.footer_links{
+  display: flex;
+  justify-content: center;
+  margin-top:5px
+}
+
+.day_timeline{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    h5{
+      font-size: 16px;
+    }
+    h6{
+      font-size: 14px;
+    }
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+
+  width: 4%!important;
+}
+.tab-content{
+  width: 100%;
+  border-left:1px solid gray;
+  // box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  // transition: 0.3s;
+}
+.flex-column {
+  flex-direction: column !important;
+  justify-content: center;
+}
+.nav-pills .nav-link.active{
+  background: none;
+    box-shadow: none;
+    color: black;
+    border-bottom: 2px solid black;
+    border-radius: 0%;
+}
+
+.mat-card{
+background-color:  #fff7f7;
+}
+
+.totalDays{
+  font-size: xx-large;
+}

@@ -1,0 +1,745 @@
+<section class="carousel">
+  <ngb-carousel *ngIf="images">
+    <ng-template ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img
+          src="../../../../../assets/pexels-imad-clicks-7611449.jpg"
+          alt="Random first slide"
+        />
+      </div>
+      <div class="carousel-caption">
+        <h3>Gulmarg</h3>
+        <p>Gulmarg is the crowning glory of Jammu & Kashmir and is located 2,650 meters above sea level. Known as the “Meadow of Flowers  </p>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+</section>
+<div class="background">
+  <div class="containerr">
+    <div class="row">
+      <div class="col-sm-4 heading">
+        <div class="text-center">
+          <h2>The new way to plan your next trip</h2>
+          <h6>Create a fully customized day-by-day itinerary for free</h6>
+        </div>
+      </div>
+      <div class="col-sm-8 mainFormDiv">
+        <div class="itineryForm">
+          <mat-card class="mat-elevation-z10">
+            <mat-card-header>
+              <mat-card-title> Itinerary Planner </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+                <mat-tab label="Trip Booked">
+                  <form [formGroup]="form">
+                    <div class="mt-2">
+                      <ng-container formGroupName="query">
+                        <div class="row" style="margin: 0px">
+                          <div class="col-sm-8" style="padding: 0px">
+                            <mat-form-field
+                              appearance="outline"
+                              style="width: 100%"
+                            >
+                              <mat-label>Enter a date range</mat-label>
+                              <mat-date-range-input [rangePicker]="picker">
+                                <input
+                                  matStartDate
+                                  formControlName="arrivalDate"
+                                  placeholder="Start date"
+                                  required
+                                />
+                                <input
+                                  matEndDate
+                                  formControlName="departureDate"
+                                  placeholder="End date"
+                                  required
+                                />
+                              </mat-date-range-input>
+                              <mat-datepicker-toggle
+                                matSuffix
+                                [for]="picker"
+                              ></mat-datepicker-toggle>
+                              <mat-date-range-picker
+                                #picker
+                                (closed)="check()"
+                              ></mat-date-range-picker>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-sm-3 guests" style="padding: 0px">
+                            <button
+                              mat-button
+                              [matMenuTriggerFor]="menu"
+                              class="text-lg tracking-wide font-semibold font-sans"
+                            >
+                              Guest <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu" class="p-2">
+                              <div class="flex flex-row">
+                                <div class="basis-1/2">
+                                  <div
+                                    class="text-base tracking-wide font-semibold font-sans mt-1"
+                                  >
+                                    Adults
+                                  </div>
+                                  <div
+                                    class="text-base tracking-wide font-semibold font-sans mt-3"
+                                  >
+                                    Teens
+                                  </div>
+                                  <div
+                                    class="text-base tracking-wide font-semibold font-sans mt-3"
+                                  >
+                                    Kids
+                                  </div>
+                                </div>
+                                <div class="basis-1/2 border">
+                                  <div
+                                    class="btn-group border-b btn-group-sm mr-2"
+                                    role="group"
+                                    aria-label="Second group"
+                                  >
+                                    <button
+                                      type="button"
+                                      class="btn"
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="adultsDec()"
+                                    >
+                                      <span class="material-symbols-outlined">
+                                        remove
+                                      </span>
+                                    </button>
+                                    <button type="button" class="btn">
+                                      {{ totalAdults }}
+                                    </button>
+                                    <button
+                                      type="button"
+                                      class="btn"
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="adultsInc()"
+                                    >
+                                      <mat-icon>add</mat-icon>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="btn-group border-b btn-group-sm mr-2"
+                                    role="group"
+                                    aria-label="Second group"
+                                  >
+                                    <button
+                                      type="button"
+                                      class="btn"
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="teensDec()"
+                                    >
+                                      <span class="material-symbols-outlined">
+                                        remove
+                                      </span>
+                                    </button>
+                                    <button type="button" class="btn">
+                                      {{ totalTeens }}
+                                    </button>
+                                    <button
+                                      type="button"
+                                      class="btn"
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="teensInc()"
+                                    >
+                                      <mat-icon>add</mat-icon>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="btn-group btn-group-sm mr-2"
+                                    role="group"
+                                    aria-label="Second group"
+                                  >
+                                    <button
+                                      type="button"
+                                      class="btn"
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="kidsDec()"
+                                    >
+                                      <span class="material-symbols-outlined">
+                                        remove
+                                      </span>
+                                    </button>
+                                    <button type="button" class="btn">
+                                      {{ totalKids }}
+                                    </button>
+                                    <button
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="kidsInc()"
+                                    >
+                                      <mat-icon>add</mat-icon>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </mat-menu>
+                          </div>
+                        </div>
+
+                        <div class="interests">
+                          <mat-accordion class="bg-transparent hover:bg-none">
+                            <mat-expansion-panel style="box-shadow: none">
+                              <mat-expansion-panel-header
+                                class="hover:bg-none border-none"
+                              >
+                                <mat-panel-title
+                                  class="text-black mat-elevation-z0"
+                                >
+                                  Pick your interests (required)
+                                  <mat-icon>keyboard_arrow_down</mat-icon>
+                                </mat-panel-title>
+                                <mat-panel-description> </mat-panel-description>
+                              </mat-expansion-panel-header>
+                              <div class="grid grid-cols-3 gap-1 mt-4">
+                                <div
+                                  class="flex"
+                                  *ngFor="
+                                    let cat of categoriesList;
+                                    let i = index
+                                  "
+                                >
+                                  <input
+                                    [id]="cat.text"
+                                    type="checkbox"
+                                    [value]="cat.text"
+                                    (change)="myFunc()"
+                                    class="w-4 h-4 text-black rounded accent-black"
+                                  />
+                                  <label
+                                    [for]="cat.text"
+                                    class="ml-2 text-sm font-medium pointer-none"
+                                    >{{ cat.text }}</label
+                                  >
+                                </div>
+                              </div>
+                            </mat-expansion-panel>
+                          </mat-accordion>
+                        </div>
+                      </ng-container>
+
+                      <div *ngIf="showForm" class="mt-2">
+                        <mat-card-header>
+                          <mat-card-subtitle>
+                            Help us with your itinery to make your trip more
+                            beautiful .
+                          </mat-card-subtitle>
+                        </mat-card-header>
+                      </div>
+                      <mat-stepper
+                        linear
+                        #stepper
+                        *ngIf="showForm"
+                        class="mt-1"
+                      >
+                        <form [formGroup]="form">
+                          <ng-container formArrayName="itineraryForm">
+                            <ng-container
+                              *ngFor="
+                                let dayForm of itineraryForm.controls;
+                                let i = index
+                              "
+                            >
+                              <ng-container [formGroupName]="i">
+                                <ng-container *ngIf="i == 0">
+                                  <mat-step
+                                    [stepControl]="itineraryForm.controls[i]"
+                                  >
+                                    <ng-template matStepLabel>Day</ng-template>
+                                    <div class="form">
+                                      <span>
+                                        On day-{{ i + 1 }} you are arriving
+                                        kashmir from &nbsp;
+                                        <span>
+                                          <mat-form-field>
+                                            <mat-select
+                                              formControlName="action"
+                                              required
+                                            >
+                                              <mat-option
+                                                [value]="option._id"
+                                                *ngFor="
+                                                  let option of dropDownData
+                                                "
+                                              >
+                                                {{ option.name }}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+
+                                          &nbsp; at arrival time
+                                          <span
+                                            >&nbsp;
+                                            <input
+                                              formControlName="arrivalTime"
+                                              type="time"
+                                            />
+                                            &nbsp;
+                                          </span>
+                                          and having &nbsp;
+                                          <span>
+                                            <input
+                                              type="checkbox"
+                                              formControlName="stay"
+                                            />
+                                          </span>
+                                          &nbsp; stay at same place .
+                                        </span>
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <button
+                                        mat-button
+                                        matStepperNext
+                                        class="float-right"
+                                      >
+                                        Next
+                                      </button>
+                                    </div>
+                                  </mat-step>
+                                </ng-container>
+                                <ng-container
+                                  *ngIf="i == itineraryForm.length - 1"
+                                >
+                                  <mat-step
+                                    [stepControl]="itineraryForm.controls[i]"
+                                  >
+                                    <ng-template matStepLabel>Day</ng-template>
+                                    <div class="">
+                                      <span>
+                                        On day-{{ i + 1 }} you are leaving
+                                        kashmir from &nbsp;
+                                        <span>
+                                          <mat-form-field>
+                                            <mat-select
+                                              formControlName="action"
+                                              required
+                                            >
+                                              <mat-option
+                                                [value]="option._id"
+                                                *ngFor="
+                                                  let option of dropDownData
+                                                "
+                                              >
+                                                {{ option.name }}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+
+                                          &nbsp; at departure time
+                                        </span>
+                                        <span
+                                          >&nbsp;
+                                          <input
+                                            formControlName="departureTime"
+                                            type="time"
+                                          />
+                                          &nbsp;
+                                        </span>
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <button mat-button matStepperPrevious>
+                                        Back
+                                      </button>
+                                    </div>
+                                  </mat-step>
+                                </ng-container>
+                                <ng-container
+                                  *ngIf="
+                                    i != 0 && i != itineraryForm.length - 1
+                                  "
+                                >
+                                  <mat-step
+                                    [stepControl]="itineraryForm.controls[i]"
+                                  >
+                                    <ng-template matStepLabel>Day</ng-template>
+                                    <div class="">
+                                      <span>
+                                        On day-{{ i + 1 }} you are visiting
+                                        &nbsp;
+                                        <span>
+                                          <mat-form-field>
+                                            <mat-select
+                                              formControlName="action"
+                                              required
+                                            >
+                                              <mat-option
+                                                [value]="option._id"
+                                                *ngFor="
+                                                  let option of dropDownData
+                                                "
+                                              >
+                                                {{ option.name }}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                          and having &nbsp;
+                                          <span>
+                                            <input
+                                              type="checkbox"
+                                              formControlName="stay"
+                                            />
+                                          </span>
+                                          &nbsp; stay at same place .
+                                        </span>
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <button mat-button matStepperPrevious>
+                                        Back
+                                      </button>
+                                      <button
+                                        mat-button
+                                        matStepperNext
+                                        class="float-right"
+                                      >
+                                        Next
+                                      </button>
+                                    </div>
+                                  </mat-step>
+                                </ng-container>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </form>
+                      </mat-stepper>
+                      <button
+                        [disabled]="itineraryForm.invalid || !form.valid"
+                        (click)="getItinerary()"
+                        type="button"
+                        class="text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium w-full rounded-lg text-sm px-5 py-2.5 mt-2 mb-1"
+                      >
+                        See Your Trip
+                      </button>
+                    </div>
+                  </form>
+                </mat-tab>
+                <mat-tab label="Book Now">
+                  <form [formGroup]="bookNowForm">
+                    <div class="mt-2">
+                      <ng-container formGroupName="query">
+                        <div class="row" style="margin: 0px">
+                          <div class="col-sm-8" style="padding: 0px">
+                            <mat-form-field
+                              appearance="outline"
+                              style="width: 100%"
+                            >
+                              <mat-label>Enter a date range</mat-label>
+                              <mat-date-range-input [rangePicker]="date">
+                                <input
+                                  matStartDate
+                                  formControlName="arrivalDate"
+                                  placeholder="Start date"
+                                  required
+                                />
+                                <input
+                                  matEndDate
+                                  formControlName="departureDate"
+                                  placeholder="End date"
+                                  required
+                                />
+                              </mat-date-range-input>
+                              <mat-datepicker-toggle
+                                matSuffix
+                                [for]="date"
+                              ></mat-datepicker-toggle>
+                              <mat-date-range-picker
+                                #date
+                              ></mat-date-range-picker>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-sm-3 guests" style="padding: 0px">
+                            <button
+                              mat-button
+                              [matMenuTriggerFor]="menu"
+                              class="text-lg tracking-wide font-semibold font-sans"
+                            >
+                              Guest <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu" class="p-2">
+                              <div class="flex flex-row">
+                                <div class="basis-1/2">
+                                  <div
+                                    class="text-base tracking-wide font-semibold font-sans mt-1"
+                                  >
+                                    Adults
+                                  </div>
+                                  <div
+                                    class="text-base tracking-wide font-semibold font-sans mt-3"
+                                  >
+                                    Teens
+                                  </div>
+                                  <div
+                                    class="text-base tracking-wide font-semibold font-sans mt-3"
+                                  >
+                                    Kids
+                                  </div>
+                                </div>
+                                <div class="basis-1/2 border">
+                                  <div
+                                    class="btn-group border-b btn-group-sm mr-2"
+                                    role="group"
+                                    aria-label="Second group"
+                                  >
+                                    <button
+                                      type="button"
+                                      (click)="$event.stopPropagation()"
+                                      (click)="adultsDec()"
+                                    >
+                                      <mat-icon>remove</mat-icon>
+                                    </button>
+                                    <button type="button" class="btn">
+                                      {{ totalAdults }}
+                                    </button>
+                                    <button
+                                      type="button"
+                                      class="btn"
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="adultsInc()"
+                                    >
+                                      <mat-icon>add</mat-icon>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="btn-group border-b btn-group-sm mr-2"
+                                    role="group"
+                                    aria-label="Second group"
+                                  >
+                                    <button
+                                      type="button"
+                                      class="btn"
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="teensDec()"
+                                    >
+                                      <span class="material-symbols-outlined">
+                                        remove
+                                      </span>
+                                    </button>
+                                    <button type="button" class="btn">
+                                      {{ totalTeens }}
+                                    </button>
+                                    <button
+                                      type="button"
+                                      class="btn"
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="teensInc()"
+                                    >
+                                      <mat-icon>add</mat-icon>
+                                    </button>
+                                  </div>
+                                  <div
+                                    class="btn-group btn-group-sm mr-2"
+                                    role="group"
+                                    aria-label="Second group"
+                                  >
+                                    <button
+                                      type="button"
+                                      class="btn"
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="kidsDec()"
+                                    >
+                                      <span class="material-symbols-outlined">
+                                        remove
+                                      </span>
+                                    </button>
+                                    <button type="button" class="btn">
+                                      {{ totalKids }}
+                                    </button>
+                                    <button
+                                      (click)="$event.stopPropagation()"
+                                      class="btn"
+                                      (click)="kidsInc()"
+                                    >
+                                      <mat-icon>add</mat-icon>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </mat-menu>
+                          </div>
+                        </div>
+
+                        <div class="interests">
+                          <mat-accordion class="bg-transparent hover:bg-none">
+                            <mat-expansion-panel style="box-shadow: none">
+                              <mat-expansion-panel-header
+                                class="hover:bg-none border-none"
+                              >
+                                <mat-panel-title
+                                  class="text-black mat-elevation-z0"
+                                >
+                                  Pick your interests (required)
+                                  <mat-icon>keyboard_arrow_down</mat-icon>
+                                </mat-panel-title>
+                                <mat-panel-description> </mat-panel-description>
+                              </mat-expansion-panel-header>
+                              <div class="grid grid-cols-3 gap-1 mt-4">
+                                <div
+                                  class="flex"
+                                  *ngFor="
+                                    let cat of categoriesList;
+                                    let i = index
+                                  "
+                                >
+                                  <input
+                                    [id]="cat.text"
+                                    type="checkbox"
+                                    [value]="cat.text"
+                                    (change)="myFunc()"
+                                    class="w-4 h-4 text-black rounded accent-black"
+                                  />
+                                  <label
+                                    [for]="cat.text"
+                                    class="ml-2 text-sm font-medium pointer-none"
+                                    >{{ cat.text }}</label
+                                  >
+                                </div>
+                              </div>
+                            </mat-expansion-panel>
+                          </mat-accordion>
+                        </div>
+                      </ng-container>
+                      <button
+                        [disabled]="!bookNowForm.valid"
+                        (click)="getNewItinery()"
+                        type="button"
+                        class="text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium w-full rounded-lg text-sm px-5 py-2.5 mt-2 mb-1"
+                      >
+                        See Your Trip
+                      </button>
+                    </div>
+                  </form>
+                </mat-tab>
+              </mat-tab-group>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-loader *ngIf="loader"></app-loader>
+
+<div class="mt-20 m-20 pb-4" id="top" *ngIf="!loader">
+  <h1 class="text-center" >
+    Top Three In Kashmir
+  </h1>
+
+  <div class="divider">
+    <div class="text_heading">
+      <mat-card-header>
+        <mat-card-title> Places </mat-card-title>
+      </mat-card-header>
+    </div>    <div class="container">
+      <div class="row">
+        <div class="col-sm-4" *ngFor="let place of threePlaces">
+          <div class="card border mat-elevation-z10"style="width: 20rem; height:30rem">
+            <img class="card-img-top" [src]="place.images[0]" style="height: 286px; min-height: 286px;" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{place.name | uppercase}}</h5>
+              <p class="card-text">{{place.description | slice:0:201}}</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divider">
+    <div class="text_heading">
+      <mat-card-header>
+        <mat-card-title> Attractions </mat-card-title>
+      </mat-card-header>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4" *ngFor="let place of threeAttractions">
+          <div class="card border mat-elevation-z10"style="width: 20rem; height:30rem">
+            <img class="card-img-top" [src]="place.images[0]" style="height: 286px; min-height: 286px;" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{place.name | uppercase}}</h5>
+              <p class="card-text">{{place.description | slice:0:201}}</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divider">
+    <div class="text_heading">
+      <mat-card-header>
+        <mat-card-title> Food Places </mat-card-title>
+      </mat-card-header>
+    </div>    <div class="container">
+      <div class="row">
+        <div class="col-sm-4" *ngFor="let place of threeFoodPlaces">
+          <div class="card border mat-elevation-z10"style="width: 20rem; height:30rem">
+            <img class="card-img-top" [src]="place.images[0]" style="height: 286px; min-height: 286px;" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{place.name | uppercase}}</h5>
+              <p class="card-text">{{place.description | slice:0:201}}</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divider">
+    <div class="text_heading">
+      <mat-card-header>
+        <mat-card-title> Activities </mat-card-title>
+      </mat-card-header>
+    </div>    <div class="container">
+      <div class="row">
+        <div class="col-sm-4" *ngFor="let place of threeActivities">
+          <div class="card border mat-elevation-z10"style="width: 20rem; height:30rem">
+            <img class="card-img-top" [src]="place.images[0]" style="height: 286px; min-height: 286px;" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{place.name | uppercase}}</h5>
+              <p class="card-text">{{place.description | slice:0:201}}</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">
+    <div class="text_heading">
+      <mat-card-header>
+        <mat-card-title> Events </mat-card-title>
+      </mat-card-header>
+    </div>    <div class="container">
+      <div class="row">
+        <div class="col-sm-4" *ngFor="let place of threeEvents">
+          <div class="card border mat-elevation-z10"style="width: 20rem; height:30rem">
+            <img class="card-img-top" [src]="place.images[0]" style="height: 286px; min-height: 286px;" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{place.name | uppercase}}</h5>
+              <p class="card-text">{{place.description | slice:0:201}}</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
